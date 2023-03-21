@@ -57,22 +57,31 @@
         </section>
 
         <section id="jira-section">
-            <!-- modal -->
-            <div class="modal" id="todo_form">
-                <div class="modal-header">
-                    <div class="title">Add Todo</div>
-                    <button class="btn close-modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="todo_input" />
-                    <input type="submit" value="Add Todo" id="todo_submit" />
+            <!-- Modal -->
+            <div class="modal fade " id="todo_form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="todo_input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-modal"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="todo_submit">Save changes</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- Display -->
             <div class="todo-container">
-                <div class="status">
+                <div class="status" id="column-todo">
                     <h2>To do</h2>
-                    <button id="add_btn" data-target-modal="#todo_form">+ Add Todo</button>
+                    <button id="add_btn" data-bs-toggle="modal" data-bs-target="#todo_form">+ Add Todo</button>
                     <div class="todo" draggable="true">
                         Demo task
                         <span class="close">&times;</span>
@@ -88,8 +97,6 @@
                     <h2>Done</h2>
                 </div>
             </div>
-
-            <div id="overlay"></div>
         </section>
     </main>
 

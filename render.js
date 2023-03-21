@@ -26,41 +26,10 @@ $(document).ready(function () {
         $(column).on("dragleave", dragLeave);
         $(column).on("drop", dragDrop);
     })
+
+
+
 })
-
-/**
-* !!! drag & drop events
-*/
-
-const todos = $('.todo');
-const allStatus = $('.status')
-let draggableTodo = null;
-
-function dragStart() {
-    draggableTodo = this;
-}
-
-function dragEnd() {
-    draggableTodo = null;
-}
-
-
-function dragOver(e) {
-    e.preventDefault();
-}
-function dragEnter() {
-    this.style.border = "dashed teal";
-    console.log('draggin enter');
-}
-function dragLeave() {
-    this.style.borderColor = "transparent";
-    console.log('dragging leave');
-}
-function dragDrop() {
-    this.style.borderColor = "transparent";
-    this.appendChild(draggableTodo);
-    console.log('dropped');
-}
 
 /**
  * !!! Load data
@@ -77,8 +46,9 @@ function getData() {
 }
 
 
-/* Tạo mảng 
-    gồm những ngày từ ngày sớm nhất đến ngày muộn nhất 
+/* 
+    ! Tạo mảng 
+    ! gồm những ngày từ ngày sớm nhất đến ngày muộn nhất 
 */
 function updateDateList(startDate, stopDate) {
 
@@ -275,3 +245,71 @@ function toggleTask(id) {
         taskFlag = true;
     }
 }
+
+
+/**
+* !!! drag & drop events
+*/
+const todos = $('.todo');
+const allStatus = $('.status')
+let draggableTodo = null;
+
+function dragStart() {
+    draggableTodo = this;
+    this.style.border = "dashed teal";
+    // this.parentNode.style.backgroundColor = "white"
+}
+
+function dragEnd() {
+    draggableTodo = null;
+    this.style.border = " none"
+}
+
+
+function dragOver(e) {
+    e.preventDefault();
+}
+function dragEnter() {
+    this.style.border = "dashed gray";
+}
+function dragLeave() {
+    this.style.borderColor = "transparent";
+}
+function dragDrop() {
+    this.style.borderColor = "transparent";
+    this.append(draggableTodo);
+}
+
+
+/**
+ * !!! Create & delete todo task
+ */
+const todoSubmit = $("#todo_submit");
+$(todoSubmit).on('click', createTodoTask);
+var random = Math.floor(Math.random() * 1000000);
+
+function createTodoTask() {
+    var todo_div = '<div class="todo" draggable="true" id="task-' + random + '">';
+    var input_val = $("#todo_input").val();
+    // var txt = document.createTextNode(input_val);
+    todo_div += '' + input_val + '<span class="close">&times;</span></div>';
+
+
+    $('#column-todo').append(todo_div);
+
+    // gán sự kiện cho task mới vừa tạo
+    $('.todo').off('dragstart').on("dragstart", dragStart);
+    $('.todo').off('dragend').on("dragend", dragEnd);
+
+    // reset
+    $('#todo_input').val("");
+    $('.close-modal').click();
+}
+
+function deleteTodoTask(id) {
+    $('#' + id).remove();
+}
+
+$('.status').on('click', '.close', function () {
+    deleteTodoTask($(this).parent().attr('id'))
+});
