@@ -1,0 +1,168 @@
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+section#gantt-chart-section {
+    display: flex;
+    width: 100%;
+}
+
+#gantt-chart-section .col-right {
+    width: 60%;
+}
+
+#gantt-chart-section .col-left {
+    width: 40%;
+}
+
+.task-list {
+    border-top: 1px solid black;
+}
+
+.task-list p {
+    margin: 0;
+    padding: 8px 8px 7px 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid rgb(212, 212, 212);
+    font-size: 16px;
+}
+
+.task-list p:hover {
+    background-color: rgb(242 242 242);
+}
+
+.task-list .has-task {
+    position: relative;
+}
+
+.task-list .has-task>i {
+    cursor: pointer;
+    position: absolute;
+    top: calc((40px - 16px)/2);
+}
+
+/* .task-list .has-task>p::before {
+    content: "\f07c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: calc((40px - 24px)/2);
+    left: 0;
+} */
+
+.task-list .task {
+    min-height: 40px;
+    vertical-align: middle;
+}
+
+.task-list .sub-task {
+    padding-left: 16px;
+}
+
+.task-list .sub-task>p {
+    /* padding-left: calc(8px + 32px); */
+    padding-left: calc(8px + 16px);
+}
+
+.task-list .sub-task>p::before {
+    left: 16px;
+}
+
+.timeline-header-label {
+    width: 100px;
+    text-align: center;
+    display: inline-block;
+}
+
+.timeline-body {
+    width: 100%;
+}
+
+.timeline-body-stage {
+    position: relative;
+    width: 100%;
+    height: 40px;
+}
+
+.timeline-body-stage:nth-child(2n+1) {
+    background-color: rgb(241, 239, 239);
+}
+
+.timeline-body-stage>span {
+    position: absolute;
+    height: 25px;
+    top: calc((100% - 25px)/2);
+    border-radius: 4px;
+}
+
+
+/* chart */
+.gantt-chart {
+    overflow: auto;
+}
+
+table.table tbody tr:hover {
+    background-color: rgb(242 242 242);
+}
+
+table.table thead tr th {
+    text-align: center;
+    white-space: nowrap;
+}
+
+table.table tbody tr td {
+    padding: 0;
+    height: 40px;
+    vertical-align: middle;
+}
+
+table.table tbody tr td div {
+    z-index: 1;
+    position: relative;
+    height: 20px;
+}
+
+table.table tbody tr td div.end-timeline {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+table.table tbody tr td div.start-timeline {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+table.table th,
+table.table td {
+    position: relative;
+}
+
+table.table thead tr th:last-child::after,
+table.table tbody tr td:last-child::after {
+    content: "";
+    height: 100%;
+    width: 1px;
+    background-color: rgb(212 212 212);
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+table.table thead tr th::before,
+table.table tbody tr td::before {
+    content: "";
+    height: 100%;
+    width: 1px;
+    background-color: rgb(212, 212, 212);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+table.table thead tr {
+    border-top: 1px solid rgb(20, 20, 20);
+}
