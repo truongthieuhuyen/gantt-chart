@@ -13,8 +13,58 @@ var statusColor = [
 
 $(document).ready(function () {
     getData()
+
+
+    $.each(todos, function (index, todoTask) {
+        $(todoTask).on('dragstart', dragStart);
+        $(todoTask).on('dragend', dragEnd);
+    })
+
+    $.each(allStatus, function (index, column) {
+        $(column).on("dragover", dragOver);
+        $(column).on("dragenter", dragEnter);
+        $(column).on("dragleave", dragLeave);
+        $(column).on("drop", dragDrop);
+    })
 })
 
+/**
+* !!! drag & drop events
+*/
+
+const todos = $('.todo');
+const allStatus = $('.status')
+let draggableTodo = null;
+
+function dragStart() {
+    draggableTodo = this;
+}
+
+function dragEnd() {
+    draggableTodo = null;
+}
+
+
+function dragOver(e) {
+    e.preventDefault();
+}
+function dragEnter() {
+    this.style.border = "dashed teal";
+    console.log('draggin enter');
+}
+function dragLeave() {
+    this.style.borderColor = "transparent";
+    console.log('dragging leave');
+}
+function dragDrop() {
+    this.style.borderColor = "transparent";
+    this.appendChild(draggableTodo);
+    console.log('dropped');
+}
+
+/**
+ * !!! Load data
+ *  */
 function getData() {
     $.getJSON('data.json', function (data) {
         dataSource = data;
