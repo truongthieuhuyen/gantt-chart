@@ -246,16 +246,16 @@ section#jira-section {
     overflow-y: auto;
 }
 
-.status .column-tasks::before {
+.status .column-tasks.changed::before {
     content: '';
-    height: 100%;
+    height: calc(100% - 46px);
     width: 100%;
-    background-color: #5e6c84;
+    background-color: #f9f9f9;
+    border-radius: 5px;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     z-index: 1;
-    display: none;
 }
 
 #add_btn {

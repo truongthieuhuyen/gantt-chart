@@ -257,34 +257,33 @@ var calling = false;
 function dragStart() {
     draggableTodo = this;
     $(this).css('border', 'dashed teal')
-
+    // add class changed 
+    $('.column-tasks').not($(this).parent()).toggleClass('changed')
 }
 
 function dragEnd() {
     draggableTodo = null;
     $(this).css('border', 'none')
+    // remove all class changed
+    $('.changed').removeClass('changed')
 }
 
 
 function dragOver(e) {
     e.preventDefault();
-    // console.log("Over");
     $(this).parent().css('box-shadow', '0px 2px 12px 4px #00000040')
 }
 function dragEnter() {
-    console.log('entered');
     $(this).parent().css('box-shadow', '0px 2px 12px 4px #00000040')
-    // $(this).children().css('visibility', 'hidden')
-    // $('.column-tasks').not($(this)).parent().css('background-color', 'black')
 }
 function dragLeave() {
     $(this).parent().css('box-shadow', '0px 2px 3px 0px #00000040')
-    // $(this).children().css('visibility', 'visible')
 }
 function dragDrop() {
     $(this).parent().css('box-shadow', '0px 2px 3px 0px #00000040')
-    // $(this).children().css('visibility', 'visible');
     this.append(draggableTodo);
+    // remove all class changed
+    $('.changed').removeClass('changed')
 }
 
 
