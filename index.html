@@ -24,6 +24,8 @@
     <!-- moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/vi.js"></script>
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -56,48 +58,7 @@
             </div>
         </section>
 
-        <section id="jira-section">
-            <!-- Modal -->
-            <div class="modal fade " id="todo_form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-                data-bs-backdrop="static" data-bs-keyboard="false">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="text" id="todo_input" />
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary close-modal"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" id="todo_submit">Save changes</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Display -->
-            <div class="todo-container">
-                <div class="status" id="column-todo">
-                    <h2>To do</h2>
-                    <button id="add_btn" data-bs-toggle="modal" data-bs-target="#todo_form">+ Add Todo</button>
-                    <div class="todo" draggable="true">
-                        Demo task
-                        <span class="close">&times;</span>
-                    </div>
-                </div>
-                <div class="status">
-                    <h2>In progress</h2>
-                </div>
-                <div class="status">
-                    <h2>In review</h2>
-                </div>
-                <div class="status">
-                    <h2>Done</h2>
-                </div>
-            </div>
-        </section>
+        <a class="btn btn-primary" href="jira.html" role="button">Đi đến kanban board</a>
     </main>
 
     <script src="render.js"></script>

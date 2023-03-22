@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban board</title>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="app.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- moment -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/vi.js"></script>
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <main>
+
+        <section id="jira-section">
+            <!-- Modal -->
+            <div class="modal fade " id="todo_form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create new task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="todo_input" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-modal"
+                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="todo_submit">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Display -->
+            <div class="todo-container">
+                <div class="status column-todo" id="column-todo">
+                    <div class="column-title">
+                        <h5>To do</h5>
+
+                        <button id="add_btn" data-bs-toggle="modal" data-bs-target="#todo_form">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="column-tasks">
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">Demo task</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    5
+                                    <div class="shortcut-priority priority-high">
+                                        <i class="fas fa-angle-up"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">Food Research</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    1
+                                    <div class="shortcut-priority priority-low">
+                                        <i class="fas fa-angle-double-down"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">Mind Mapping</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    1
+                                    <div class="shortcut-priority priority-low">
+                                        <i class="fas fa-angle-down"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="status column-in-progress" id="column-in-progress">
+                    <div class="column-title">
+                        <h5>In progress</h5>
+
+                    </div>
+                    <div class="column-tasks">
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">UI Animation</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    9
+                                    <div class="shortcut-priority priority-medium">
+                                        <i class="fas fa-grip-lines"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status column-in-review" id="column-in-review">
+                    <div class="column-title">
+                        <h5>In review</h5>
+
+                    </div>
+                    <div class="column-tasks">
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">User interface</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    6
+                                    <div class="shortcut-priority priority-medium">
+                                        <i class="fas fa-grip-lines"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status column-done" id="column-done">
+                    <div class="column-title">
+                        <h5>Done</h5>
+
+                    </div>
+                    <div class="column-tasks">
+                        <div class="todo" draggable="true">
+                            <p class="todo-title">Mockups</p>
+                            <span class="close">&times;</span>
+                            <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
+                                deleniti eos, itaque autem impedit dolores culpa incidunt similique id suscipit in
+                                aliquam quisquam nam et veritatis eligendi iste amet iure!
+                            </div>
+                            <div class="todo-shortcut">
+                                <div class="shortcut-type ">
+                                    <i class="fas fa-paperclip"></i>
+                                    2
+                                    <div class="shortcut-priority priority-highest">
+                                        <i class="fas fa-angle-double-up"></i>
+                                    </div>
+                                </div>
+                                <div class="shortcut-assignee">
+                                    <img src="images/Frame 1141.png" alt="">
+                                    <img src="images/Frame 1149.png" alt="">
+                                    <img src="images/Frame 1184.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <a class="btn btn-primary" href="index.html" role="button">Trở về</a>
+    </main>
+
+    <script src="render.js"></script>
+</body>
+
+</html>

@@ -27,8 +27,7 @@ $(document).ready(function () {
         $(column).on("drop", dragDrop);
     })
 
-
-
+    $('.todo img').attr('draggable', false)
 })
 
 /**
@@ -248,35 +247,43 @@ function toggleTask(id) {
 
 
 /**
-* !!! drag & drop events
-*/
+ * ! ___________________________________________________ Jira events
+ */
 const todos = $('.todo');
-const allStatus = $('.status')
+const allStatus = $('.column-tasks')
 let draggableTodo = null;
+var calling = false;
 
 function dragStart() {
     draggableTodo = this;
-    this.style.border = "dashed teal";
-    // this.parentNode.style.backgroundColor = "white"
+    $(this).css('border', 'dashed teal')
+
 }
 
 function dragEnd() {
     draggableTodo = null;
-    this.style.border = " none"
+    $(this).css('border', 'none')
 }
 
 
 function dragOver(e) {
     e.preventDefault();
+    // console.log("Over");
+    $(this).parent().css('box-shadow', '0px 2px 12px 4px #00000040')
 }
 function dragEnter() {
-    this.style.border = "dashed gray";
+    console.log('entered');
+    $(this).parent().css('box-shadow', '0px 2px 12px 4px #00000040')
+    // $(this).children().css('visibility', 'hidden')
+    // $('.column-tasks').not($(this)).parent().css('background-color', 'black')
 }
 function dragLeave() {
-    this.style.borderColor = "transparent";
+    $(this).parent().css('box-shadow', '0px 2px 3px 0px #00000040')
+    // $(this).children().css('visibility', 'visible')
 }
 function dragDrop() {
-    this.style.borderColor = "transparent";
+    $(this).parent().css('box-shadow', '0px 2px 3px 0px #00000040')
+    // $(this).children().css('visibility', 'visible');
     this.append(draggableTodo);
 }
 
@@ -291,11 +298,10 @@ var random = Math.floor(Math.random() * 1000000);
 function createTodoTask() {
     var todo_div = '<div class="todo" draggable="true" id="task-' + random + '">';
     var input_val = $("#todo_input").val();
-    // var txt = document.createTextNode(input_val);
     todo_div += '' + input_val + '<span class="close">&times;</span></div>';
 
 
-    $('#column-todo').append(todo_div);
+    $('#column-todo .column-tasks').append(todo_div);
 
     // gán sự kiện cho task mới vừa tạo
     $('.todo').off('dragstart').on("dragstart", dragStart);
@@ -304,12 +310,37 @@ function createTodoTask() {
     // reset
     $('#todo_input').val("");
     $('.close-modal').click();
+    Swal.fire({
+        title: 'Created new task!',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 2500
+    })
 }
-
 function deleteTodoTask(id) {
     $('#' + id).remove();
 }
 
+
+
 $('.status').on('click', '.close', function () {
-    deleteTodoTask($(this).parent().attr('id'))
+    Swal.fire({
+        title: 'Do you want to delete this task?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteTodoTask($(this).parent().attr('id'))
+            Swal.fire({
+                title: 'Deleted!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        } else if (result.isDenied) {
+            Swal.fire('Canceled', '', 'info')
+        }
+    })
+
 });
