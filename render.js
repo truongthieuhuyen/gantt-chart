@@ -257,6 +257,7 @@ var calling = false;
 function dragStart() {
     draggableTodo = this;
     $(this).css('border', 'dashed teal')
+    $(this).css('cursor', 'move')
     // add class changed 
     $('.column-tasks').not($(this).parent()).toggleClass('changed')
 }
@@ -264,6 +265,7 @@ function dragStart() {
 function dragEnd() {
     draggableTodo = null;
     $(this).css('border', 'none')
+    $(this).css('cursor', 'unset')
     // remove all class changed
     $('.changed').removeClass('changed')
 }
