@@ -6,7 +6,6 @@
 main {
     display: flex;
     flex-direction: column;
-    row-gap: 100px;
 }
 
 .row {
@@ -181,7 +180,7 @@ table.table thead tr {
 
 
 
-/** ___________________________________________________________ jira tasks */
+/** ________________________________________________ kanban board */
 
 section#jira-section {
     height: calc(100vh - 100px);
@@ -189,10 +188,11 @@ section#jira-section {
     justify-content: center;
     font-family: sofiaPro;
     margin-bottom: 100px;
+    padding-top: 50px;
 }
 
 .todo-container {
-    min-width: calc(1240 / 1920 * 100%);
+    min-width: calc(50%);
     width: 100%;
     height: inherit;
     padding: 0 0.75rem;
@@ -201,13 +201,19 @@ section#jira-section {
 }
 
 .status {
-    width: 25%;
+    /* width: 20%; */
     background-color: #fff;
     position: relative;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 25%) 0px 2px 3px 0px;
     display: flex;
+    padding: 0;
     flex-direction: column;
+    height: fit-content;
+}
+
+.status.changed {
+    box-shadow: 0px 2px 12px 4px #fcf5f5ec;
 }
 
 .status .column-title {
@@ -231,14 +237,13 @@ section#jira-section {
 
 .status .column-title button {
     border-radius: 50%;
-    color: #5e6c84;
     display: inline;
 }
 
 .status .column-tasks {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    /* min-height: 100%; */
+    min-height: 46px;
     height: calc(100%);
     max-height: 100%;
     padding: 0.5rem 0.75rem;
@@ -248,21 +253,24 @@ section#jira-section {
 
 .status .column-tasks.changed::before {
     content: '';
-    height: calc(100% - 46px);
+    height: calc(100%);
     width: 100%;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+    /* border: dashed teal; */
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     position: absolute;
     bottom: 0;
     left: 0;
-    z-index: 1;
+    transition: all linear 2000;
+    z-index: 10;
 }
 
 #add_btn {
-    /* border: none; */
-    border-color: #5e6c84;
+    border: none;
+    /* border-color: #5e6c84; */
     cursor: pointer;
     background-color: transparent;
+    color: #fff;
 }
 
 .todo {
@@ -278,12 +286,26 @@ section#jira-section {
     padding: 0.5rem 1rem;
     font-size: 1.5rem;
     margin: 0.5rem 0;
+    cursor: grab;
+    /* transition: display linear 2s; */
+}
+
+.todo.changed {
+    /* border: dashed snow; */
+    cursor: grabbing;
+    background-color: #343444;
+    color: #fff;
+    z-index: 11;
 }
 
 .todo .todo-title {
     font-weight: 600;
     font-size: 18px;
     line-height: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .todo .todo-text {
@@ -295,6 +317,7 @@ section#jira-section {
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 15px 0 22px;
+    display: none;
 }
 
 .todo .todo-shortcut {
@@ -397,6 +420,10 @@ section#jira-section {
 
 .column-in-review {
     background-color: #343444;
+}
+
+.column-in-testing {
+    background-color: #ffb03b;
 }
 
 .column-done {

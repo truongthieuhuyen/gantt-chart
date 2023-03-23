@@ -20,12 +20,16 @@
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
     <!-- moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/locale/vi.js"></script>
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- droppable -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 
     <style>
         main {
@@ -33,6 +37,18 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
+        }
+
+        .todo-container {
+            /* overflow: hidden; */
+        }
+
+        .status .column-tasks {
+            overflow: visible;
+        }
+
+        .todo {
+            z-index: 9;
         }
     </style>
 </head>
@@ -62,8 +78,8 @@
                 </div>
             </div>
             <!-- Display -->
-            <div class="todo-container">
-                <div class="status column-todo" id="column-todo">
+            <div class="row todo-container">
+                <div class="col status column-todo" id="column-todo">
                     <div class="column-title">
                         <h5>To do</h5>
 
@@ -72,7 +88,7 @@
                         </button>
                     </div>
                     <div class="column-tasks">
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">Demo task</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -95,7 +111,7 @@
                             </div>
                         </div>
 
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">Food Research</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -118,7 +134,7 @@
                             </div>
                         </div>
 
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">Mind Mapping</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -143,13 +159,13 @@
 
                     </div>
                 </div>
-                <div class="status column-in-progress" id="column-in-progress">
+                <div class="col status column-in-progress" id="column-in-progress">
                     <div class="column-title">
                         <h5>In progress</h5>
 
                     </div>
                     <div class="column-tasks">
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">UI Animation</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -173,13 +189,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="status column-in-review" id="column-in-review">
+                <div class="col status column-in-review" id="column-in-revi ew">
                     <div class="column-title">
                         <h5>In review</h5>
 
                     </div>
                     <div class="column-tasks">
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">User interface</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -203,13 +219,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="status column-in-testing" id="column-in-testing">
+                <div class="col status column-in-testing" id="column-in-testing">
                     <div class="column-title">
                         <h5>In testing</h5>
 
                     </div>
                     <div class="column-tasks">
-                        <div class="todo" draggable="true">
+                        <div class="todo">
                             <p class="todo-title">Create dynamically content for marketing campaign</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -233,13 +249,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="status column-done" id="column-done">
+                <div class="col status column-done" id="column-done">
                     <div class="column-title">
                         <h5>Done</h5>
 
                     </div>
                     <div class="column-tasks">
-                        <div class="todo" draggable="true">
+                        <div class="todo" id="drag-something">
                             <p class="todo-title">Mockups</p>
                             <span class="close">&times;</span>
                             <div class="todo-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
@@ -269,7 +285,105 @@
         <a class="btn btn-primary" href="index.html" role="button">Trở về</a>
     </main>
 
-    <script src="render.js"></script>
+    <script>
+        const todoTasks = $('.todo');
+        const boxes = $('.column-tasks');
+        let dragItem = null;
+
+        /* 
+         * ____________________________________________ Drag events 
+         */
+        $(function () {
+            // task
+            todoTasks.draggable({
+                start: function () {
+                    dragItem = this;
+                    $(this).toggleClass('changed')
+                    boxes.not($(this).parent()).addClass('changed')
+
+                },
+                drag: function () {
+                    $(this).parent().parent().addClass('changed')
+                },
+                stop: function () {
+                    $(this).toggleClass('changed')
+                    boxes.removeClass('changed')
+                    $(this).css({ 'top': 'unset', 'left': 'unset' })
+                    $('.status').removeClass('changed')
+                },
+            });
+
+            // column container
+            boxes.droppable({
+                // over: function (event, ui) {
+                //     $(this).parent().addClass('changed')
+                // },
+                drop: function (event, ui) {
+                    $(this)
+                        .addClass("ui-state-highlight changed")
+                        .append(dragItem)
+                },
+            });
+        });
+
+
+        /**
+         * _________________________________________ Create & delete todo task
+         */
+        const todoSubmit = $("#todo_submit");
+        $(todoSubmit).on('click', createTodoTask);
+        var random = Math.floor(Math.random() * 1000000);
+
+        function createTodoTask() {
+            var todo_div = '<div class="todo" draggable="true" id="task-' + random + '">';
+            var input_val = $("#todo_input").val();
+            todo_div += '' + input_val + '<span class="close">&times;</span></div>';
+
+
+            $('#column-todo .column-tasks').append(todo_div);
+
+            // gán sự kiện cho task mới vừa tạo
+            $('.todo').off('dragstart').on("dragstart", dragStart);
+            $('.todo').off('dragend').on("dragend", dragEnd);
+
+            // reset
+            $('#todo_input').val("");
+            $('.close-modal').click();
+            Swal.fire({
+                title: 'Created new task!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+        function deleteTodoTask(id) {
+            $('#' + id).remove();
+        }
+
+
+
+        $('.status').on('click', '.close', function () {
+            Swal.fire({
+                title: 'Do you want to delete this task?',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteTodoTask($(this).parent().attr('id'))
+                    Swal.fire({
+                        title: 'Deleted!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                } else if (result.isDenied) {
+                    Swal.fire('Canceled', '', 'info')
+                }
+            })
+
+        });
+    </script>
 </body>
 
 </html>
